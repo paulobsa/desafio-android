@@ -8,7 +8,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.paulobsa.desafioandroid.model.Item;
-import com.paulobsa.desafioandroid.model.SearchResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private RepoListAdapterOnclickHandler mHandler;
     private Context mContext;
-    private SearchResult searchResult;
+    private List<Item> items;
     private static final int LOADING = 0;
     private static final int ITEM = 1;
     private boolean isLoaderVisible = false;
@@ -24,6 +26,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     public RepoListAdapter(RepoListAdapterOnclickHandler handler, Context context) {
         this.mHandler = handler;
         this.mContext = context;
+        items = new ArrayList<>();
     }
 
     @Override
@@ -47,7 +50,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public int getItemViewType(int position) {
         if (isLoaderVisible) {
-            return position == searchResult.getItems().size() - 1 ? LOADING : ITEM;
+            return position == items.size() - 1 ? LOADING : ITEM;
         } else {
             return ITEM;
         }
@@ -55,29 +58,24 @@ public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     @Override
     public int getItemCount() {
-        return searchResult == null
-                || searchResult.getItems() == null ? 0 : searchResult.getItems().size();
+        return items == null ? 0 : items.size();
     }
 
-    public void addSearchResult(SearchResult searchResult) {
-        if (this.searchResult == null) {
-            this.searchResult = searchResult;
-        } else {
-            this.searchResult.getItems().addAll(searchResult.getItems());
-        }
+    public void addAll(List<Item> items) {
+        this.items.addAll(items);
         isLoaderVisible = false;
         notifyDataSetChanged();
     }
 
     public void addItem(Item item) {
-        searchResult.getItems().add(item);
-        notifyItemInserted(searchResult.getItems().size() - 1);
+        items.add(item);
+        notifyItemInserted(items.size() - 1);
     }
 
     private void removeItem(Item item) {
-        int position = searchResult.getItems().indexOf(item);
+        int position = items.indexOf(item);
         if (position > -1) {
-            searchResult.getItems().remove(position);
+            items.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -89,22 +87,20 @@ public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public void removeLoading() {
         isLoaderVisible = false;
-        if (searchResult != null && searchResult.getItems() != null) {
-            int position = searchResult.getItems().size() - 1;
+        if (items != null) {
+            int position = items.size() - 1;
             Item item = getItem(position);
-            if (item != null) {
-                searchResult.getItems().remove(position);
-                notifyItemRemoved(position);
-            }
+            items.remove(position);
+            notifyItemRemoved(position);
         }
     }
 
     public void clear() {
-        searchResult = null;
+        items = null;
     }
 
     Item getItem(int position) {
-        return searchResult.getItems().get(position);
+        return items.get(position);
     }
 
     public class ViewHolder extends BaseViewHolder {
@@ -124,15 +120,10 @@ public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
         public void onBind(final int position) {
             super.onBind(position);
-            Item item = searchResult.getItems().get(position);
+            Item item = items.get(position);
 
             textView.setText(item.getName());
-            mCard.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mHandler.onCardClick(searchResult.getItems().get(position).getName());
-                }
-            });
+            mCard.setOnClickListener(view -> mHandler.onCardClick(items.get(position).getName()));
         }
     }
 

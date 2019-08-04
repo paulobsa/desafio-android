@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.CardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/repo_info_card">
 
-    <androidx.constraintlayout.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -57,7 +57,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             tools:text="Zero movie review: Shah Rukh Khan, Katrina Kaif and Anushka Sharma make the first part of Zero flat-out fantastic, an unabashed charm-offensive. It is as the film continues, and gets more fanciful, that the seams start to show."/>
 
-    </androidx.constraintlayout.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-</androidx.appcompat.widget.CardView>
+</androidx.cardview.widget.CardView>
