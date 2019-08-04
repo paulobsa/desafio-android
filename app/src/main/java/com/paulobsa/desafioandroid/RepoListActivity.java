@@ -1,11 +1,6 @@
 package com.paulobsa.desafioandroid;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -21,6 +16,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.paulobsa.desafioandroid.model.SearchResult;
 import com.paulobsa.desafioandroid.util.Util;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 
 public class RepoListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, RepoListAdapter.RepoListAdapterOnclickHandler {
 
@@ -86,6 +89,11 @@ public class RepoListActivity extends AppCompatActivity implements SwipeRefreshL
             public boolean isLoading() {
                 return isLoading;
             }
+        });
+
+        RepoListViewModel model = ViewModelProviders.of(this).get(RepoListViewModel.class);
+        model.getItems().observe(this, items -> {
+            // update UI
         });
     }
 
@@ -196,4 +204,5 @@ public class RepoListActivity extends AppCompatActivity implements SwipeRefreshL
             isLoading = false;
         }
     };
+
 }

@@ -1,8 +1,6 @@
 package com.paulobsa.desafioandroid;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +9,9 @@ import android.widget.TextView;
 
 import com.paulobsa.desafioandroid.model.Item;
 import com.paulobsa.desafioandroid.model.SearchResult;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RepoListAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     private RepoListAdapterOnclickHandler mHandler;
